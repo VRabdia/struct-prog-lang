@@ -6,11 +6,10 @@ def evaluate(ast, environment):
         assert type(ast["value"]) in [float, int],f"unexpected numerical type {type(ast["value"])}"
         return ast["value"], False
     if ast["tag"] == "identifier":
-        #assert type(ast["value"]) in [
-        #    float,
-        #    int,
-        #], f"unexpected numerical type {type(ast["value"])}"
-        return 3.14159, False
+        identifier = ast["value"]
+        assert identifier in environment, f"ERROR: Unknown Identifier: '{identifier}'"
+        if identifier in environment:
+            return environment[identifier], False
     if ast["tag"] == "+":
         left_value, _ = evaluate(ast["left"], environment)
         right_value, _ = evaluate(ast["right"], environment)
@@ -97,8 +96,9 @@ def test_evaluate_single_value():
     print("test evaluate single value")
     equals("4",{},4,{})
     equals("3",{},3,{})
-    equals("4.2",{},4.2,{})
-    equals("X", {}, 3.14159, {})
+    equals("4.2",{}, 4.2,{})
+    equals("X", {'X':1}, 1)
+    equals("Y", {'X':1, 'Y':2}, 2)
 
 def test_evaluate_addition():
     print("test evaluate addition")
