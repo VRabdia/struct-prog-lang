@@ -99,6 +99,7 @@ def test_evaluate_single_value():
     equals("4.2",{}, 4.2,{})
     equals("X", {'X':1}, 1)
     equals("Y", {'X':1, 'Y':2}, 2)
+    equals("X+Y", {'X':1, 'Y':2}, 3)
 
 def test_evaluate_addition():
     print("test evaluate addition")
