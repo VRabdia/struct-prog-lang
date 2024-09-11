@@ -1,6 +1,7 @@
 from tokenizer import tokenize
 from parser import parse
 
+<<<<<<< HEAD
 def evaluate(ast, environment):
     if ast["tag"] == "number":
         assert type(ast["value"]) in [float, int],f"unexpected numerical type {type(ast["value"])}"
@@ -69,11 +70,29 @@ def equals(code, environment, expected_result, expected_environment=None):
     -- expected result -- 
     {[expected_result]}
     -- got --
+=======
+
+def evaluate(ast, environment):
+    environment["x"] = 3
+    return 4, False
+
+
+def equals(code, environment, expected_result, expected_environment=None):
+    result, _ = evaluate(parse(tokenize(code)), environment)
+    assert (
+        result == expected_result
+    ), f"""ERROR: When executing
+    {[code]}
+    -- expected --
+    {[expected_result]}
+    --got--
+>>>>>>> 8d43d80 (Extended Parser and added evaluator)
     {[result]}."""
     if expected_environment != None:
         assert (
             environment == expected_environment
         ), f"""ERROR: When executing
+<<<<<<< HEAD
         {[code]} 
         -- expected environment -- 
         {[expected_environment]}
@@ -122,3 +141,20 @@ if __name__ == "__main__":
     test_evaluate_division()
     test_evaluate_negation()
     print("done.")
+=======
+        {[code]}
+        -- expected --
+        {[expected_environment]}
+        --got--
+        {[environment]}."""
+
+
+def test_evaluate_single_value():
+    print("Testing test_evaluate_single_value...")
+    equals("4", {}, 4, {})
+
+
+if __name__ == "__main__":
+    test_evaluate_single_value()
+    print("Done.")
+>>>>>>> 8d43d80 (Extended Parser and added evaluator)

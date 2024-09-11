@@ -51,10 +51,17 @@ def tokenize(characters):
             else:
                 token["value"] = int(token["value"])
     token = {
+<<<<<<< HEAD
             "tag": None,
             "value": None,
             "position": position,
         }
+=======
+        "tag": None,
+        "value": None,
+        "position": position,
+    }
+>>>>>>> 8d43d80 (Extended Parser and added evaluator)
     tokens.append(token)
     return tokens
 
