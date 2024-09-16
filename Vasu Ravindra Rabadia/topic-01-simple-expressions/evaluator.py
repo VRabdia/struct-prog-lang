@@ -73,8 +73,31 @@ def equals(code, environment, expected_result, expected_environment=None):
 =======
 
 def evaluate(ast, environment):
-    environment["x"] = 3
-    return 4, False
+    if ast["tag"] == "number":
+        assert type(ast["value"]) in [float, int], f"ERROR: unexpected numerical type {type(ast["value"])}"
+        return ast["value"], False
+    if ast["tag"] == "+":
+        left_value, _ = evaluate(ast["left"], environment)
+        right_value, _ = evaluate(ast["right"], environment)
+        return left_value + right_value, False
+    if ast["tag"] == "-":
+        left_value, _ = evaluate(ast["left"], environment)
+        right_value, _ = evaluate(ast["right"], environment)
+        return left_value - right_value, False
+    if ast["tag"] == "*":
+        left_value, _ = evaluate(ast["left"], environment)
+        right_value, _ = evaluate(ast["right"], environment)
+        return left_value * right_value, False
+    if ast["tag"] == "/":
+        left_value, _ = evaluate(ast["left"], environment)
+        right_value, _ = evaluate(ast["right"], environment)
+        assert right_value != 0, "ERROR: Division by Zero"
+        return left_value / right_value, False
+    if ast["tag"] == "negate":
+        value, _ = evaluate(ast["value"],environment)
+        return -value, False
+
+    assert False, "Unknown operator in AST"
 
 
 def equals(code, environment, expected_result, expected_environment=None):
@@ -152,9 +175,47 @@ if __name__ == "__main__":
 def test_evaluate_single_value():
     print("Testing test_evaluate_single_value...")
     equals("4", {}, 4, {})
+    equals("3", {}, 3, {})
+    equals("4.2",{}, 4.2,{})
+
+def test_evaluate_addition():
+    print("Testing test_evaluate_addition...")
+    equals("1+1", {}, 2, {})
+    equals("1+2+3", {}, 6, {})
+    equals("1.2+2.3+3.4", {}, 6.9, {})
+
+def test_evaluate_subtraction():
+    print("Testing test_evaluate_subtraction...")
+    equals("1-1", {}, 0, {})
+    equals("3-2-1", {}, 0, {})
+
+def test_evaluate_multiplication():
+    print("Testing test_evaluate_multiplication...")
+    equals("1*1", {}, 1, {})
+    equals("3*2*1", {}, 6, {})
+    equals("3*2*2", {}, 12, {})
+    equals("3+2*2", {}, 7, {})
+    equals("(3+2)*2", {}, 10, {})
+
+def test_evaluate_division():
+    print("Testing test_evaluate_division...")
+    equals("1/1", {}, 1, {})
+    equals("4/2", {}, 2, {})
+    equals("8/4/2", {}, 1, {})
+    equals("3/2/1", {}, 1.5, {})
+
+def test_negation():
+    print("Testing test_negation...")
+    equals("-2", {}, -2, {})
+    equals("--3", {}, 3, {})
 
 
 if __name__ == "__main__":
     test_evaluate_single_value()
+    test_evaluate_addition()
+    test_evaluate_subtraction()
+    test_evaluate_multiplication()
+    test_evaluate_division()
+    test_negation()
     print("Done.")
 >>>>>>> 8d43d80 (Extended Parser and added evaluator)
