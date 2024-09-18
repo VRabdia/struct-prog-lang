@@ -137,6 +137,10 @@ def test_print_statement():
     equals("print(50+7)", {}, None, {})
     equals("print(50+8)", {}, None, {})
 
+def test_assignment():
+    print("test assignment")
+    equals("X=1",{}, None, {"X":1})
+
 
 if __name__ == "__main__":
     test_evaluate_single_value()
@@ -146,4 +150,5 @@ if __name__ == "__main__":
     test_evaluate_division()
     test_evaluate_negation()
     test_print_statement()
+    test_assignment()
     print("done.")
