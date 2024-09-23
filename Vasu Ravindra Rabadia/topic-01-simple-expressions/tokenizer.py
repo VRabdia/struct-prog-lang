@@ -26,6 +26,7 @@ patterns = [
     ["=", "="],
     ["(\\d+\\.\\d*)|(\\d*\\.\\d+)|(\\d+)", "number"],
 <<<<<<< HEAD
+<<<<<<< HEAD
     ["\\&\\&", "&&"],["\\|\\|", "||"],["!","!"]
 =======
     ["(\\d+\\.\\d*)|(\\d*\\.\\d+)|(\\d+)", "number"],
@@ -35,6 +36,11 @@ patterns = [
     ["or", "or"],
     ["not", "not"],
 >>>>>>> 13d81c1 (added comparison and logical operators)
+=======
+    ["\\&\\&", "&&"],
+    ["\\|\\|", "||"],
+    ["!", "!"],
+>>>>>>> e93ce20 (Added Print Statement)
 ]
 
 for pattern in patterns:
@@ -101,6 +107,7 @@ def test_simple_tokens():
         assert tokens[0]["value"] == char
         assert tokens[0]["position"] == i
 <<<<<<< HEAD
+<<<<<<< HEAD
     for characters in ["(",")","+", "-", "*", "/", "==","!=","<",">","<=", ">=","=","||","&&","!"]:
         tokens = tokenize(characters)
         assert (
@@ -108,6 +115,9 @@ def test_simple_tokens():
         ), f"Expecting {characters}, got {tokens[0]["tag"]}"
 =======
     for characters in ["(", ")", "+", "-", "*", "/", "==", "!=", "<", ">", "<=", ">=", "=" , "or", "and", "not"]:
+=======
+    for characters in ["(", ")", "+", "-", "*", "/", "==", "!=", "<", ">", "<=", ">=", "=" , "||", "&&", "!"]:
+>>>>>>> e93ce20 (Added Print Statement)
         tokens = tokenize(characters)
         assert tokens[0]["tag"] == characters, f"EXPECTING: {characters}, got {tokens[0]["tag"]}"
 >>>>>>> 13d81c1 (added comparison and logical operators)
