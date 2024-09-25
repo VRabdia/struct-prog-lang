@@ -60,8 +60,9 @@ from tokenizer import tokenize
 
 =======
     print_statement = "print" "(" expression ")"
+    assignment_statement = expression
     statement = print_statement |
-                expression
+                assignment_statement
 """
 
 
@@ -97,11 +98,14 @@ def parse_simple_expression(tokens):
         return node, tokens
 
 
+<<<<<<< HEAD
 def parse_arithmetic_expression(tokens):
     return parse_simple_expression(tokens)
 
 
 >>>>>>> e93ce20 (Added Print Statement)
+=======
+>>>>>>> 9772502 (Added assignment statement)
 def test_parse_simple_expression():
     """
     simple_expression = number | "(" expression ")" | "-" simple_expression
@@ -650,7 +654,25 @@ def test_parse_expression():
     # pprint(ast)
 
 
+<<<<<<< HEAD
 >>>>>>> e93ce20 (Added Print Statement)
+=======
+def parse_expression(tokens):
+    """
+    expression = boolean_expression
+    """
+    return parse_boolean_expression(tokens)
+
+
+def test_parse_expression():
+    print("Testing parse_expression...")
+    tokens = tokenize("4>2+3||4&&5")
+    ast1, _ = parse_expression(tokens)
+    ast2, _ = parse_boolean_expression(tokens)
+    assert ast1 == ast2
+
+
+>>>>>>> 9772502 (Added assignment statement)
 def parse_print_statement(tokens):
     """
     print_statement = "print" "(" expression ")"
@@ -737,14 +759,41 @@ def test_parse_assignment_statement():
     # pprint(ast)
 
 
-def parse_expression(tokens):
-    return parse_boolean_expression(tokens)
+def parse_assignment_statement(tokens):
+    """
+    assignment_statement = expression
+    """
+    node, tokens = parse_expression(tokens)
+    if tokens[0]["tag"] == "=":
+        tag = tokens[0]["tag"]
+        value, tokens = parse_expression(tokens[1:])
+        node = {"tag": tag, "target": node, "value": value}
+    return node, tokens
+
+
+def test_parse_assignment_statement():
+    print("Testing parse_assignment_statement...")
+    #
+    tokens = tokenize("2+3*4+5")
+    ast1, _ = parse_expression(tokens)
+    ast2, _ = parse_assignment_statement(tokens)
+    assert ast1 == ast2
+    #
+    tokens = tokenize("3=4")
+    ast, _ = parse_assignment_statement(tokens)
+    assert ast == {
+        "tag": "=",
+        "target": {"tag": "number", "value": 3, "position": 0},
+        "value": {"tag": "number", "value": 4, "position": 2},
+    }
+    # pprint(ast)
 
 >>>>>>> e93ce20 (Added Print Statement)
 
 def parse_statement(tokens):
     """
     statement = print_statement |
+<<<<<<< HEAD
 <<<<<<< HEAD
                 assignment_statement
     """
@@ -800,10 +849,13 @@ def test_parse():
 ========
 =======
                 expression
+=======
+                assignment_statement
+>>>>>>> 9772502 (Added assignment statement)
     """
     if tokens[0]["tag"] == "print":
         return parse_print_statement(tokens)
-    return parse_expression(tokens)
+    return parse_assignment_statement(tokens)
 
 
 def test_parse_statement():
@@ -870,6 +922,7 @@ if __name__ == "__main__":
     test_parse_boolean_term()
     test_parse_boolean_expression()
 <<<<<<< HEAD
+<<<<<<< HEAD
     test_parse_expression()
     test_parse_print_statement()
     test_parse_assignment_statement()
@@ -877,7 +930,11 @@ if __name__ == "__main__":
     test_parse()
     print("done")
 =======
+=======
+    test_parse_expression()
+>>>>>>> 9772502 (Added assignment statement)
     test_parse_print_statement()
+    test_parse_assignment_statement()
     test_parse_statement()
     test_parse()
     print("Done.")

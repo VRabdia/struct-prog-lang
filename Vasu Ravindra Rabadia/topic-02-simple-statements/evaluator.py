@@ -203,9 +203,14 @@ def test_negation():
 
 def test_print_statement():
     print("Testing test_print_statement...")
+    equals("print(77)", {}, None, {})
     equals("print()", {}, None, {})
     equals("print(50+7)", {}, None, {})
+<<<<<<< HEAD
 >>>>>>> e93ce20 (Added Print Statement)
+=======
+    equals("print(50+8)", {}, None, {})
+>>>>>>> 9772502 (Added assignment statement)
 
 
 if __name__ == "__main__":
