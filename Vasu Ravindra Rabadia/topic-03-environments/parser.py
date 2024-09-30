@@ -172,6 +172,13 @@ def test_parse_simple_expression():
     assert ast["tag"] == "identifier"
     assert ast["value"] == "X"
     # pprint(ast)
+    #
+    tokens = tokenize("-(2)")
+    ast, tokens = parse_simple_expression(tokens)
+    # assert ast["tag"] == "identifier"
+    # assert ast["value"] == "X"
+    pprint(ast)
+    print(tokens)
 
 >>>>>>> 575be92 (Added identifiers)
 
