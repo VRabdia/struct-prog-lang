@@ -431,7 +431,7 @@ def test_parse_program():
     """
     print("test parse_program")
     tokens = tokenize("2+3*4+5")
-    assert parse_program(tokens) == parse__statement_list(tokens)
+    assert parse_program(tokens) == parse_statement_list(tokens)
 
 
 def parse(tokens):
