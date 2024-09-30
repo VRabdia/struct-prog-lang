@@ -20,6 +20,7 @@ patterns = [
     ["<", "<"],
     [">", ">"],
     ["=", "="],
+    [";", ";"],
     ["print", "print"],
     ["while", "while"],
     ["do", "do"],
@@ -28,7 +29,7 @@ patterns = [
     ["function", "function"],
     ["return", "return"],
     ["(\\d+\\.\\d*)|(\\d*\\.\\d+)|(\\d+)", "number"],
-    ["[A-Za-z_][A-Za-z0-9_]*","identifier"],
+    ["[A-Za-z_][A-Za-z0-9_]*", "identifier"],
     ["\\&\\&", "&&"],
     ["\\|\\|", "||"],
     ["!", "!"],
@@ -91,7 +92,7 @@ def test_simple_tokens():
         assert tokens[0]["value"] == float(number)
 
 def test_identifier_tokens():
-    print("testing identifer tokens")
+    print("testing identifier tokens")
     for s in ["x", "_", "X"]:
         tokens = tokenize(s)
         assert tokens[0]["tag"] == "identifier"

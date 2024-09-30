@@ -92,7 +92,7 @@ def test_simple_tokens():
         assert tokens[0]["value"] == float(number)
 
 def test_identifier_tokens():
-    print("testing identifer tokens")
+    print("testing identifier tokens")
     for s in ["x", "_", "X"]:
         tokens = tokenize(s)
         assert tokens[0]["tag"] == "identifier"
