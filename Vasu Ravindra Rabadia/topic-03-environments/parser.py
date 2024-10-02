@@ -415,7 +415,6 @@ def test_parse_statement_list():
     tokens = tokenize("print(4);print(5)")
     ast, tokens = parse_statement_list(tokens)
     print(ast)
-    exit()
 
 
 def parse_program(tokens):
