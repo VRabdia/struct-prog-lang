@@ -5,11 +5,12 @@ from tokenizer import tokenize
 from parser import parse
 from evaluator import evaluate
 
+
 def main():
     # check for arguments
     if len(sys.argv) > 1:
         # open the file
-        with open(sys.argv[1],'r') as f:
+        with open(sys.argv[1], "r") as f:
             source_code = f.read()
         environment = {}
         tokens = tokenize(source_code)
@@ -23,7 +24,7 @@ def main():
         try:
             # read input
             source_code = input(">> ")
-            if source_code.strip() in ["exit","quit"]:
+            if source_code.strip() in ["exit", "quit"]:
                 break
             if source_code.strip() in ["debug"]:
                 debug = not debug
@@ -40,6 +41,7 @@ def main():
                 pprint(environment)
         except Exception as e:
             print(f"Error: {e}")
+
 
 if __name__ == "__main__":
     main()
