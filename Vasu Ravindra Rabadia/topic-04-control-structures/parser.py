@@ -345,6 +345,103 @@ def test_parse_print_statement():
     }
 
 
+def parse_if_statement(tokens):
+    """
+    if_statement = "if" "(" boolean_expression ")" statement { "else" statement }
+    """
+    assert tokens[0]["tag"] == "if"
+    tokens = tokens[1:]
+    assert tokens[0]["tag"] == "("
+    tokens = tokens[1:]
+    condition, tokens = parse_expression(tokens)
+    assert tokens[0]["tag"] == ")"
+    tokens = tokens[1:]
+    then_statement, tokens = parse_statement(tokens)
+    node = {"tag": "if", "condition": condition, "then": then_statement}
+    if tokens[0]["tag"] == "else":
+        tokens = tokens[1:]
+        else_statement, tokens = parse_statement(tokens)
+        node["else"] = else_statement
+    return node, tokens
+
+
+def test_parse_if_statement():
+    """
+    if_statement = "if" "(" boolean_expression ")" statement { "else" statement }
+    """
+    print("testing parse_if_statement")
+    ast, tokens = parse_if_statement(tokenize("if(1)print(2)"))
+    assert ast == {
+        "condition": {"position": 3, "tag": "number", "value": 1},
+        "tag": "if",
+        "then": {
+            "tag": "print",
+            "value": {"position": 11, "tag": "number", "value": 2},
+        },
+    }
+    # pprint(ast)
+    #
+    ast, tokens = parse_if_statement(tokenize("if(1)print(2)elseprint(3)"))
+    assert ast == {
+        "condition": {"position": 3, "tag": "number", "value": 1},
+        "else": {
+            "tag": "print",
+            "value": {"position": 23, "tag": "number", "value": 3},
+        },
+        "tag": "if",
+        "then": {
+            "tag": "print",
+            "value": {"position": 11, "tag": "number", "value": 2},
+        },
+    }
+    # pprint(ast)
+    #
+    ast, tokens = parse_if_statement(
+        tokenize("if(1){print(2);print(-2)}else{print(3);print(-3)}")
+    )
+    assert ast == {
+        "condition": {"position": 3, "tag": "number", "value": 1},
+        "else": {
+            "list": {
+                "list": None,
+                "statement": {
+                    "tag": "print",
+                    "value": {
+                        "tag": "negate",
+                        "value": {"position": 46, "tag": "number", "value": 3},
+                    },
+                },
+                "tag": "list",
+            },
+            "statement": {
+                "tag": "print",
+                "value": {"position": 36, "tag": "number", "value": 3},
+            },
+            "tag": "list",
+        },
+        "tag": "if",
+        "then": {
+            "list": {
+                "list": None,
+                "statement": {
+                    "tag": "print",
+                    "value": {
+                        "tag": "negate",
+                        "value": {"position": 22, "tag": "number", "value": 2},
+                    },
+                },
+                "tag": "list",
+            },
+            "statement": {
+                "tag": "print",
+                "value": {"position": 12, "tag": "number", "value": 2},
+            },
+            "tag": "list",
+        },
+    }
+    # pprint(ast)
+
+
 def parse_assignment_statement(tokens):
     """
     assignment_statement = expression
@@ -384,6 +481,10 @@ def parse_statement(tokens):
     """
     if tokens[0]["tag"] == "print":
         return parse_print_statement(tokens)
+    if tokens[0]["tag"] == "if":
+        return parse_if_statement(tokens)
+    # if tokens[0]["tag"] == "while":
+    #     return parse_while_statement(tokens)
     if tokens[0]["tag"] == "{":
         ast, tokens = parse_statement_list(tokens[1:])
         assert tokens[0]["tag"] == "}"
@@ -435,7 +536,7 @@ def test_parse_statement_list():
     """
     statement_list = statement { ";" statement } {";"}
     """
-    print("test parse_statement_list")
+    print("testing parse_statement_list")
     tokens = tokenize("4+5")
     assert parse_statement_list(tokens) == parse_statement(tokens)
     tokens = tokenize("print(4);print(5)")
@@ -468,7 +569,7 @@ def test_parse_program():
     """
     program = statement_list
     """
-    print("test parse_program")
+    print("testing parse_program")
     tokens = tokenize("2+3*4+5")
     assert parse_program(tokens) == parse_statement_list(tokens)
 
@@ -522,6 +623,8 @@ if __name__ == "__main__":
     test_parse_boolean_expression()
     test_parse_expression()
     test_parse_print_statement()
+    test_parse_if_statement()
+    # test_parse_while_statement()
     test_parse_assignment_statement()
     test_parse_statement()
     test_parse_statement_list()
