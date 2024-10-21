@@ -150,7 +150,7 @@ def equals(code, environment, expected_result, expected_environment=None):
 
 
 def test_evaluate_single_value():
-    print("test evaluate single value")
+    print("testing evaluate_single_value")
     equals("4", {}, 4, {})
     equals("3", {}, 3, {})
     equals("4.2", {}, 4.2, {})
@@ -159,7 +159,7 @@ def test_evaluate_single_value():
 
 
 def test_evaluate_addition():
-    print("test evaluate addition")
+    print("testing evaluate_addition")
     equals("1+1", {}, 2, {})
     equals("1+2+3", {}, 6, {})
     equals("1.2+2.3+3.4", {}, 6.9, {})
@@ -167,13 +167,13 @@ def test_evaluate_addition():
 
 
 def test_evaluate_subtraction():
-    print("test evaluate subtraction")
+    print("testing evaluate_subtraction")
     equals("1-1", {}, 0, {})
     equals("3-2-1", {}, 0, {})
 
 
 def test_evaluate_multiplication():
-    print("test evaluate multiplication")
+    print("testing evaluate_multiplication")
     equals("1*1", {}, 1, {})
     equals("3*2*2", {}, 12, {})
     equals("3+2*2", {}, 7, {})
@@ -181,19 +181,19 @@ def test_evaluate_multiplication():
 
 
 def test_evaluate_division():
-    print("test evaluate division")
+    print("testing evaluate_division")
     equals("4/2", {}, 2, {})
     equals("8/4/2", {}, 1, {})
 
 
 def test_evaluate_negation():
-    print("test evaluate negation")
+    print("testing evaluate_negation")
     equals("-2", {}, -2, {})
     equals("--3", {}, 3, {})
 
 
 def test_evaluate_print_statement():
-    print("test print statement")
+    print("testing evaluate_print_statement")
     equals("print(77)", {}, None, {})
     equals("print()", {}, None, {})
     equals("print(50+7)", {}, None, {})
@@ -217,14 +217,14 @@ def test_evaluate_while_statement():
 
 
 def test_evaluate_assignment_statement():
-    print("test assignment_statement")
+    print("testing evaluate_assignment_statement")
     equals("X=1", {}, None, {"X": 1})
     equals("x=x+1", {"x": 1}, None, {"x": 2})
     equals("y=x+1", {"y": 1, "$parent": {"x": 3}}, None, {"y": 4, "$parent": {"x": 3}})
 
 
 def test_evaluate_statement_list():
-    print("test statement_list")
+    print("testing evaluate_statement_list")
     equals("1", {}, 1)
     equals("1;2;print(4);print(5);x=6;print(x)", {}, None)
 
